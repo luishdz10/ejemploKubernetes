@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hola-deploy
+  namespace: prueba
+  labels:
+    app: hola
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hola
+  template:
+    metadata:
+      labels:
+        app: hola
+    spec:
+      containers:
+      - name: hola
+        image: pbitty/hello-from:latest
+        resources:
+          requests:        # Lo mínimo que pide el pod para poder arrancar
+            memory: "100Mi"
+            cpu: "100m"    # 250m equivale a 0.25 núcleos de CPU
+          limits:          # Lo máximo que se le permite consumir
+            memory: "200Mi"
+            cpu: "120m"
+        ports:
+        - containerPort: 80
